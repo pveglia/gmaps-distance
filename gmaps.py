@@ -8,7 +8,7 @@ from difflib import SequenceMatcher as sm
 
 GEOCODE_BASE_URL = 'http://maps.google.it/maps/api/directions/json'
 THRESHOLD=0.6
-SLEEP_T=5
+SLEEP_T=1
 
 def geocode(origin, destination, sensor):
     geo_args = {
@@ -35,8 +35,8 @@ def geocode(origin, destination, sensor):
         start_index = sm(None, origin, leg['start_address']).ratio()
         end_index = sm(None, destination, leg['end_address']).ratio()
         if (start_index < THRESHOLD) or (end_index < THRESHOLD):
-            res['duration'] = "?"
-            res['distance'] = "?"
+            res['duration'] = "%.0f *" % duration
+            res['distance'] = "%.1f *" % distance
             print >> sys.stderr, "ATTENZIONE! Forse alcune cittá non sono " \
                 "state trovate\n. Partenza voluta: \"%s\", partenza suggerita" \
                 ": \"%s\".\n Destinazione voluta: %s, " \
